@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Switch,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
@@ -16,6 +17,9 @@ const App = () => {
   const [gameWinner, setGameWinner] = useState<string>("");
   const [board, setBoard] = useState(new Array(9).fill("edit", 0, 9));
   const [isEnabled, setIsEnabled] = useState(false);
+  const [circleWins , setCircleWins] = useState(0)
+  const [crossWins , setCrossWins] = useState(0)
+  const [draws , setDraws] = useState(0)
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   const reset = () => {
@@ -32,7 +36,7 @@ const App = () => {
         board[i] === board[i + 1] &&
         board[i + 1] === board[i + 2]
       ) {
-        return `The Winner is ${board[i]}`;
+        return `${board[i]}`;
       }
     }
 
@@ -43,17 +47,17 @@ const App = () => {
         board[i] === board[i + 3] &&
         board[i + 3] === board[i + 6]
       ) {
-        return `The Winner is ${board[i]}`;
+        return `${board[i]}`;
       }
     }
 
     // Check diagonals
     if (board[0] !== "edit" && board[0] === board[4] && board[4] === board[8]) {
-      return `The Winner is ${board[0]}`;
+      return `${board[0]}`;
     }
 
     if (board[2] !== "edit" && board[2] === board[4] && board[4] === board[6]) {
-      return `The Winner is ${board[2]}`;
+      return `${board[2]}`;
     }
 
     if (!board.includes("edit", 0)) {
@@ -70,24 +74,34 @@ const App = () => {
     setGameWinner(winner);
     setIsCross(!isCross);
     toggleSwitch();
-  };
+    if (winner === "Draw") {
+      setDraws(draws + 1)
+      Alert.alert("Draw", "It's a draw!");
+    } else if (winner) {
+      if(winner == "cross"){
+        setCrossWins ( crossWins + 1)
+      }else{
+        setCircleWins ( circleWins + 1)
+      }
+      Alert.alert("Winner", `Player ${winner} wins!`);
+  }};
 
   return (
-    <View className="w-full flex justify-center items-center">
+    <View className="w-full flex-1 bg-[#fff] flex justify-center items-center">
       <StatusBar />
       <View className="flex justify-center items-center mt-12">
         <View className="flex items-center justify-center flex-row gap-20">
           <View className="flex justify-center items-center">
             <FontAwesome name="circle-o" size={30} color="#79CADC" />
-            <Text className=" font-bold text-lg text-[#79CADC]">4 Wins</Text>
+            <Text className=" font-bold text-lg text-[#79CADC]">{circleWins} Wins</Text>
           </View>
           <View className="flex justify-center items-center">
             <FontAwesome name="close" size={30} color="#3A98D4" />
-            <Text className=" font-bold text-lg text-[#3A98D4]">4 Wins</Text>
+            <Text className=" font-bold text-lg text-[#3A98D4]">{crossWins} Wins</Text>
           </View>
           <View className="flex justify-center items-center">
             <FontAwesome name="balance-scale" size={30} color="#9ea19e" />
-            <Text className=" font-bold text-lg text-[#9ea19e]">4 Wins</Text>
+            <Text className=" font-bold text-lg text-[#9ea19e]">{draws} Wins</Text>
           </View>
         </View>
 
