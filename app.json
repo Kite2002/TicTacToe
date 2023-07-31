@@ -19,17 +19,17 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.batabyal.TicTacToe"
+      "package": "com.debabrata.TicTacToe"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "3ec27c37-c24f-4829-8e80-b1fb473b67a8"
+        "projectId": "226098d4-a007-4a6d-b4e9-17111b9cbd2b"
       }
     }
   }
